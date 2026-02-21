@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Login - Mundari Samaj</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #2d6a4f; 
+            --bg-gradient: linear-gradient(135deg, #f0f7f4 0%, #e8f5e9 100%); 
+            --text: #1b4332; 
+        }
+        body { 
+            margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg-gradient); 
+            color: var(--text); height: 100vh; display: flex; justify-content: center; align-items: center; 
+        }
+        .login-box { 
+            background: white; padding: 40px 30px; border-radius: 24px; 
+            width: 85%; max-width: 340px; box-shadow: 0 15px 40px rgba(45, 106, 79, 0.15); 
+            text-align: center; border: 1px solid #e0eadd;
+        }
+        .login-box h3 { 
+            color: var(--primary); font-family: 'Cormorant Garamond', serif; 
+            margin-top: 0; font-size: 32px; margin-bottom: 25px;
+        }
+        input.login-input { 
+            width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #f0f7f4; 
+            border-radius: 12px; box-sizing: border-box; font-family: 'Outfit', sans-serif; font-size: 15px;
+            transition: 0.3s;
+        }
+        input.login-input:focus { border-color: var(--primary); outline: none; background: #fafafa; }
+        .btn-green { 
+            width: 100%; padding: 15px; background: var(--primary); color: white; border: none; 
+            border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.2s; 
+            margin-top: 15px; box-shadow: 0 5px 15px rgba(45, 106, 79, 0.2);
+        }
+        .btn-green:active { transform: scale(0.96); }
+        .btn-cancel { 
+            display: block; margin-top: 20px; color: #888; text-decoration: none; 
+            font-weight: 500; transition: 0.2s; 
+        }
+        .btn-cancel:hover { color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h3>Admin Login</h3>
+        <input type="email" id="adm-email" class="login-input" placeholder="Email Address">
+        <input type="password" id="adm-pass" class="login-input" placeholder="Password">
+        <button class="btn-green" onclick="checkLogin(event)">Login to Admin</button>
+        <a href="index.html" class="btn-cancel">← Back to Home</a>
+    </div>
+
+    <script>
+        // Security: Block Inspect
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
+            if (e.ctrlKey && e.keyCode == 85) return false;
+        }
+
+        // Login Logic
+        function checkLogin(e) {
+            if(e) e.preventDefault();
+
+            const emailInput = document.getElementById('adm-email');
+            const passInput = document.getElementById('adm-pass');
+
+            const email = emailInput.value.trim().toLowerCase();
+            const pass = passInput.value.trim();
+
+            if (email === "" || pass === "") {
+                alert("Please enter both your email and password.");
+                return;
+            }
+            
+            const allowedEmails = [
+                "asisasastudent@gmail.com",
+                "admin2@mundari.com",
+                "admin3@mundari.com"
+            ];
+            
+            // Dynamic Date Password Logic (DDMMYYYY)
+            const today = new Date();
+            const d = String(today.getDate()).padStart(2, '0');
+            const m = String(today.getMonth() + 1).padStart(2, '0');
+            const y = today.getFullYear();
+            const dynamicPass = d + m + y;
+
+            if (allowedEmails.includes(email) && pass === dynamicPass) {
+                // Success! Send to Admin Panel
+                window.location.href = 'admin.html';
+            } else {
+                alert("⛔ Access Denied. Incorrect Email or Password.");
+            }
+        }
+    </script>
+</body>
+</html>
