@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <link id="dynamic-favicon" rel="icon" href="https://via.placeholder.com/100/9c3f1b/ffffff?text=M" type="image/png">
+    
+    <title>Mundari Samaj</title>
+    <meta name="description" content="Welcome to the official Mundari Samaj digital platform. Preserving our culture, language, and traditions.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/"> <meta property="og:title" content="Mundari Samaj">
+    <meta property="og:description" content="Preserving our culture, language, and traditions for future generations.">
+    <meta property="og:image" content="https://yourwebsite.com/your-real-banner-image.jpg"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com/"> <meta property="twitter:title" content="Mundari Samaj">
+    <meta property="twitter:description" content="Preserving our culture, language, and traditions for future generations.">
+    <meta property="twitter:image" content="https://yourwebsite.com/your-real-banner-image.jpg"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- HERITAGE EARTH THEME --- */
+        :root { 
+            --primary: #9c3f1b; 
+            --primary-light: #d66b45; 
+            --bg-gradient: linear-gradient(135deg, #fcf8f5 0%, #f4e8e1 100%); 
+            --glass: rgba(255, 255, 255, 0.85); 
+            --border-soft: #ebd6cc; 
+            --text: #361508; 
+        }
+        
+        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg-gradient); color: var(--text); padding-top: 55px; padding-bottom: 40px; overflow-x: hidden; min-height: 100vh; }
+        body.menu-open { overflow: hidden !important; height: 100vh !important; }
+
+        /* --- SLIM SMART HEADER --- */
+        header { 
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); 
+            padding: 8px 15px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            position: fixed; top: 0; left: 0; width: 100%; box-sizing: border-box; 
+            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); 
+            transition: transform 0.3s ease-in-out; 
+        }
+        .header-hidden { transform: translateY(-100%); }
+
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); padding: 2px; background: white; display: block; }
+        .app-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 20px; color: var(--primary); margin: 0; }
+
+        .header-icons { display: flex; align-items: center; gap: 10px; }
+        .h-icon { cursor: pointer; padding: 4px; display: flex; justify-content: center; align-items: center; }
+        .h-icon svg { stroke: var(--primary); }
+
+        /* --- CENTERED POP-UP MENU --- */
+        .menu-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(54, 21, 8, 0.45); 
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); 
+            z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s ease; 
+            display: flex; justify-content: center; align-items: center; 
+        }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+        
+        .menu-popup { 
+            width: 85%; max-width: 340px; background: #fff; border-radius: 24px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25); 
+            padding: 25px; box-sizing: border-box; 
+            transform: scale(0.9) translateY(20px); opacity: 0; 
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .menu-overlay.active .menu-popup { transform: scale(1) translateY(0); opacity: 1; }
+        
+        .nav-row { 
+            padding: 16px 20px; background: #fdfdfd; border: 1px solid var(--border-soft); 
+            border-radius: 16px; text-decoration: none; color: var(--text); 
+            font-weight: 500; font-size: 16px; display: flex; justify-content: space-between; align-items: center; 
+            transition: background 0.2s;
+        }
+        .nav-row:active { background: #f0f0f0; }
+        .login-link { text-align: center; margin-top: 10px; padding: 10px; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 15px; text-decoration: none; display: block; }
+
+        /* --- FULL-SCREEN BLURRED SEARCH (YOUTUBE/IG STYLE) --- */
+        .search-fullscreen { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+            z-index: 3000; opacity: 0; visibility: hidden; transition: 0.3s ease; 
+            display: flex; flex-direction: column; 
+        }
+        .search-fullscreen.active { opacity: 1; visibility: visible; }
+        
+        .search-header-bar { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .s-back-btn { cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .s-input-wrapper { flex: 1; display: flex; align-items: center; background: #f0f0f0; border-radius: 12px; padding: 10px 15px; }
+        .s-input { width: 100%; border: none; background: transparent; font-size: 16px; font-family: 'Outfit', sans-serif; outline: none; color: #111; }
+        .s-clear { cursor: pointer; color: #999; display: flex; align-items: center; }
+        
+        .s-results-container { flex: 1; overflow-y: auto; padding: 10px 0; }
+        .s-result-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid #f9f9f9; cursor: pointer; transition: background 0.2s; }
+        .s-result-item:active { background: #f0f0f0; }
+        .s-thumb { width: 70px; height: 50px; border-radius: 8px; object-fit: cover; background: #eee; flex-shrink: 0; }
+        .s-info { flex: 1; }
+        .s-title { font-size: 15px; font-weight: 500; color: #111; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+        .s-type { font-size: 12px; color: var(--primary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+
+        /* --- CONTENT SECTION --- */
+        .slider-wrapper { 
+            width: 92%; height: 220px; margin: 20px auto; border-radius: 20px; 
+            overflow-x: auto; overflow-y: hidden; position: relative; border: 4px solid white; 
+            box-shadow: 0 10px 30px rgba(156, 63, 27, 0.12); display: flex; 
+            scroll-snap-type: x mandatory; scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+            background: #2a1107;
+        }
+        .slider-wrapper::-webkit-scrollbar { display: none; }
+        
+        .slide-item { flex: 0 0 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; background: #111; display: flex; justify-content: center; align-items: center; }
+        .slide-img { width: 100%; height: 100%; object-fit: contain; }
+        .slide-caption { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; padding: 40px 20px 15px 20px; box-sizing: border-box; font-size: 16px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-family: 'Outfit', sans-serif; text-align: center; }
+
+        .section-title { padding: 0 25px; margin-top: 30px; margin-bottom: 10px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content:''; width: 5px; height: 20px; background: var(--primary); border-radius: 4px; }
+        
+        .scroll-feed { display: flex; gap: 15px; overflow-x: auto; padding: 5px 25px 30px 25px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+        .scroll-feed::-webkit-scrollbar { display: none; }
+
+        .card { flex: 0 0 160px; background: rgba(255,255,255,0.9); border-radius: 16px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid white; cursor: pointer; }
+        .c-img { width: 100%; height: 110px; object-fit: cover; background: #f4e8e1; }
+        .c-body { padding: 12px; }
+        .c-title { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+        
+        .vid-card { flex: 0 0 140px; }
+        .vid-card .c-img { height: 200px; }
+        .vid-landscape { flex: 0 0 240px; }
+        .vid-landscape .c-img { height: 135px; object-fit: cover; }
+
+        footer { background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.8); margin: 40px 20px; border-radius: 24px; padding: 40px 20px; text-align: center; color: var(--text); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        footer h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--primary); margin-top: 0; margin-bottom: 10px; }
+        footer p { opacity: 0.8; font-size: 15px; line-height: 1.6; max-width: 500px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="logo-area">
+            <img id="site-logo" class="logo" src="https://via.placeholder.com/100/9c3f1b/ffffff?text=M" onerror="this.onerror=null; this.src='https://via.placeholder.com/100/9c3f1b/ffffff?text=M';">
+            <h1 class="app-title">Mundari Samaj</h1>
+        </div>
+        
+        <div class="header-icons">
+            <div class="h-icon" onclick="openSearch()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <div class="h-icon" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </div>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()">
+        <div class="menu-popup" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <h3 style="margin: 0; font-family: 'Cormorant Garamond', serif; color: var(--primary); font-size: 26px;">Menu</h3>
+                <div onclick="toggleMenu()" style="cursor:pointer; padding:5px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            
+            <a href="#" class="nav-row" onclick="toggleMenu()">Home <span style="color:#ccc;">→</span></a>
+            <a href="#article-feed" class="nav-row" onclick="toggleMenu()">Articles <span style="color:#ccc;">→</span></a>
+            <a href="#video-feed" class="nav-row" onclick="toggleMenu()">Videos <span style="color:#ccc;">→</span></a>
+            <a href="#photo-feed" class="nav-row" onclick="toggleMenu()">Gallery <span style="color:#ccc;">→</span></a>
+            
+            <a href="login.html" class="login-link">Admin Login</a>
+        </div>
+    </div>
+
+    <div class="search-fullscreen" id="search-fullscreen">
+        <div class="search-header-bar">
+            <div class="s-back-btn" onclick="closeSearch()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <div class="s-input-wrapper">
+                <input type="text" class="s-input" id="main-search-input" placeholder="Search Mundari Samaj..." onkeyup="handleSearch(this.value)">
+                <div class="s-clear" onclick="clearSearch()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+        </div>
+        <div class="s-results-container" id="search-results-box"></div>
+    </div>
+
+    <div class="slider-wrapper" id="slider"></div>
+
+    <div style="text-align:center; padding:20px;">
+        <h2 style="font-family:'Cormorant Garamond', serif; font-size:32px; color:var(--primary); margin:0;" id="w-title">Johar, Jay Mundari</h2>
+        <div style="background:white; color:var(--primary); padding:6px 18px; border-radius:50px; display:inline-block; font-size:13px; margin-top:8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);" id="w-sub">Welcome</div>
+    </div>
+
+    <div class="section-title">Latest Articles</div>
+    <div class="scroll-feed" id="article-feed"></div>
+    <div class="section-title">Recent Videos</div>
+    <div class="scroll-feed" id="video-feed"></div>
+    <div class="section-title">Photo Gallery</div>
+    <div class="scroll-feed" id="photo-feed"></div>
+
+    <footer>
+        <h3>About Us</h3>
+        <p id="footer-text"></p>
+        <div style="margin-top:25px; font-size:13px; color:#555;">
+            <span id="footer-email"></span><br><br>
+            © 2026 Mundari Samaj
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
+            if (e.ctrlKey && e.keyCode == 85) return false;
+        }
+
+        if(db.admin) {
+            const logoImg = document.getElementById('site-logo');
+            const favicon = document.getElementById('dynamic-favicon');
+            
+            if(db.admin.logo && db.admin.logo.length > 5) {
+                logoImg.src = db.admin.logo;
+                favicon.href = db.admin.logo; 
+            }
+
+            document.getElementById('w-title').innerText = db.admin.welcomeTitle || "Johar, Jay Mundari";
+            document.getElementById('w-sub').innerText = db.admin.welcomeSub || "Welcome";
+            document.getElementById('footer-text').innerText = db.admin.footerText || "Preserving our culture.";
+            document.getElementById('footer-email').innerText = db.admin.contactEmail || "Contact";
+        }
+
+        // --- HIDING HEADER LOGIC ---
+        let lastScrollTop = 0;
+        const mainHeader = document.getElementById('main-header');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 70) {
+                mainHeader.classList.add('header-hidden'); 
+            } else {
+                mainHeader.classList.remove('header-hidden'); 
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // --- MENU LOGIC ---
+        function toggleMenu() {
+            const overlay = document.getElementById('menu-overlay');
+            overlay.classList.toggle('active');
+            if (overlay.classList.contains('active')) {
+                document.body.classList.add('menu-open');
+            } else {
+                document.body.classList.remove('menu-open');
+            }
+        }
+
+        // --- SEARCH LOGIC ---
+        function openSearch() {
+            const searchUI = document.getElementById('search-fullscreen');
+            searchUI.classList.add('active');
+            document.body.classList.add('menu-open');
+            setTimeout(() => { document.getElementById('main-search-input').focus(); }, 300);
+            
+            document.getElementById('search-results-box').innerHTML = `<div style="padding: 40px 20px; text-align: center; color: #888; font-size: 15px;">Search for articles, videos, or culture...</div>`;
+            document.getElementById('main-search-input').value = "";
+        }
+
+        function closeSearch() {
+            document.getElementById('search-fullscreen').classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
+        function clearSearch() {
+            document.getElementById('main-search-input').value = '';
+            document.getElementById('search-results-box').innerHTML = `<div style="padding: 40px 20px; text-align: center; color: #888; font-size: 15px;">Search for articles, videos, or culture...</div>`;
+            document.getElementById('main-search-input').focus();
+        }
+
+        function handleSearch(q) {
+            const res = document.getElementById('search-results-box');
+            if(!q.trim()) { 
+                res.innerHTML = `<div style="padding: 40px 20px; text-align: center; color: #888; font-size: 15px;">Search for articles, videos, or culture...</div>`; 
+                return; 
+            }
+            
+            const hits = [
+                ...(db.articles || []).map(a => ({t: a.title, url: `article.html?id=${a.id}`, type: 'Article', img: a.thumbnail || 'https://via.placeholder.com/150'})),
+                ...(db.videos || []).map(v => ({t: v.title, url: `video.html?id=${v.id}`, type: 'Video', img: v.thumbnail || 'https://via.placeholder.com/150'}))
+            ].filter(x => x.t.toLowerCase().includes(q.toLowerCase()));
+            
+            if (hits.length === 0) {
+                res.innerHTML = `<div style="padding: 40px 20px; text-align: center; color: #888; font-size: 15px;">No results found for "${q}"</div>`;
+            } else {
+                res.innerHTML = hits.map(h => `
+                    <div class="s-result-item" onclick="window.location.href='${h.url}'">
+                        <img src="${h.img}" class="s-thumb">
+                        <div class="s-info">
+                            <div class="s-title">${h.t}</div>
+                            <div class="s-type">${h.type}</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // --- CONTENT RENDER LOGIC ---
+        const slider = document.getElementById('slider');
+        if (db.events && db.events.length > 0) {
+            let sliderHTML = '';
+            db.events.forEach((evt) => { 
+                sliderHTML += `
+                <div class="slide-item">
+                    <img src="${evt.image}" class="slide-img" loading="lazy">
+                    ${evt.title ? `<div class="slide-caption">${evt.title}</div>` : ''}
+                </div>`; 
+            });
+            slider.innerHTML = sliderHTML;
+            
+            if(db.events.length > 1) {
+                let sIdx = 0;
+                let slideInterval = setInterval(autoSlide, 10000); 
+
+                function autoSlide() {
+                    sIdx = (sIdx + 1) % db.events.length;
+                    const scrollAmount = slider.clientWidth * sIdx;
+                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+                }
+
+                const resetTimer = () => {
+                    clearInterval(slideInterval);
+                    slideInterval = setInterval(autoSlide, 10000);
+                    setTimeout(() => { sIdx = Math.round(slider.scrollLeft / slider.clientWidth); }, 400); 
+                };
+
+                slider.addEventListener('touchstart', () => clearInterval(slideInterval), {passive: true});
+                slider.addEventListener('touchend', resetTimer, {passive: true});
+                slider.addEventListener('mousedown', () => clearInterval(slideInterval), {passive: true});
+                slider.addEventListener('mouseup', resetTimer, {passive: true});
+            }
+        } else { 
+            slider.innerHTML = "<div style='display:flex;justify-content:center;align-items:center;width:100%;height:100%;color:#aaa;'>No images available</div>"; 
+        }
+
+        function renderFeedFast(id, data, type) {
+            const container = document.getElementById(id);
+            if(!data || data.length === 0) { container.innerHTML = `<div style="padding:0 20px; font-size:13px; color:#999;">No content found.</div>`; return; }
+            const page = type === 'article' ? 'article.html' : type === 'video' ? 'video.html' : 'photo.html';
+            
+            container.innerHTML = data.map(i => {
+                let isLandscape = false;
+                if (type === 'video' && i.link) {
+                    if ((i.link.includes('youtube.com/watch') || i.link.includes('youtu.be/')) && !i.link.includes('shorts')) {
+                        isLandscape = true;
+                    }
+                }
+                
+                let cardClass = '';
+                if (type === 'video') cardClass = isLandscape ? 'vid-landscape' : 'vid-card';
+
+                return `
+                <div class="card ${cardClass}" onclick="window.location.href='${page}?id=${i.id}'">
+                    <img src="${i.thumbnail || i.image || 'https://via.placeholder.com/150'}" class="c-img" loading="lazy">
+                    <div class="c-body"><div class="c-title">${i.title || 'Mundari Photo'}</div></div>
+                </div>
+                `;
+            }).join('');
+        }
+        
+        if(db.articles) renderFeedFast('article-feed', db.articles, 'article');
+        if(db.videos) renderFeedFast('video-feed', db.videos, 'video');
+        if(db.photos) renderFeedFast('photo-feed', db.photos, 'photo');
+    </script>
+</body>
+</html>
