@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reading View</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Barlow&family=Cormorant+Garamond:wght@600;700&family=Dancing+Script&family=Fira+Sans&family=Inconsolata&family=Lato&family=Lora&family=Merriweather&family=Montserrat&family=Mukta&family=Nunito&family=Open+Sans&family=Oswald&family=Outfit:wght@300;400;500;600&family=PT+Sans&family=Playfair+Display&family=Quicksand&family=Raleway&family=Roboto&family=Source+Sans+3&family=Work+Sans&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- HERITAGE EARTH THEME --- */
+        :root {
+            --primary: #9c3f1b;
+            --primary-light: #d66b45;
+            --text: #361508;
+            --paper: #ffffff; /* Clean white paper look */
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: var(--paper); 
+            color: var(--text);
+            min-height: 100vh;
+            padding-top: 55px; /* Offset for the fixed header */
+        }
+
+        /* --- SMART NAVIGATION (Hides on scroll) --- */
+        .top-nav {
+            position: fixed; top: 0; left: 0; width: 100%; box-sizing: border-box;
+            z-index: 1000;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: center; justify-content: space-between;
+            transition: transform 0.3s ease-in-out;
+        }
+        .header-hidden { transform: translateY(-100%); }
+
+        .back-btn {
+            font-size: 16px; font-weight: 600; color: var(--primary);
+            text-decoration: none; display: flex; align-items: center; gap: 5px; cursor: pointer;
+        }
+        .brand-mini { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 20px; color: var(--primary); }
+
+        /* --- ARTICLE CONTAINER --- */
+        .article-paper {
+            max-width: 800px; margin: 0 auto;
+            background: var(--paper);
+            min-height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Hero Image */
+        .hero-section { position: relative; width: 100%; height: 350px; display: block; }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100px;
+            background: linear-gradient(to top, rgba(255,255,255,1), transparent);
+        }
+
+        /* Content Area */
+        .content-wrap { 
+            padding: 20px 30px 60px 30px; 
+            margin-top: -40px; 
+            position: relative; 
+            z-index: 10; 
+            transition: margin-top 0.3s; 
+        }
+
+        h1.main-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 34px; line-height: 1.3; color: var(--primary); margin-bottom: 15px;
+            word-wrap: break-word;
+        }
+
+        /* --- META DATA (Date & Author) --- */
+        .meta-data {
+            background: #fcf8f5; /* Subtle heritage background */
+            border-left: 4px solid var(--primary-light);
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 30px;
+        }
+        .author-line {
+            font-size: 15px; font-weight: 600; color: var(--primary);
+            display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+        }
+        .date-line {
+            font-size: 13px; color: #666; font-weight: 400;
+        }
+
+        /* --- ARTICLE TEXT --- */
+        .article-body { 
+            font-family: 'Outfit', sans-serif; 
+            font-size: 18px; 
+            line-height: 1.8; 
+            color: #2d3436; 
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
+        }
+        .article-body p, .article-body span { line-height: 1.8; }
+        .article-body img { max-width: 100%; border-radius: 12px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .article-body h2 { font-family: 'Cormorant Garamond', serif; color: var(--primary); margin-top: 35px; margin-bottom: 15px; font-size: 26px; }
+        .article-body ul { padding-left: 20px; color: #444; }
+        
+        /* End of article marker */
+        .end-mark {
+            text-align: center; margin-top: 50px; padding-top: 30px;
+            border-top: 1px solid #eee; color: #bbb; font-size: 24px;
+            letter-spacing: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav" id="main-header">
+        <div class="back-btn" onclick="window.location.href='index.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+            Back
+        </div>
+        <div class="brand-mini">Mundari Samaj</div>
+        <div style="width:60px;"></div>
+    </div>
+
+    <div class="article-paper">
+        <div class="hero-section" id="hero-box">
+            <img id="art-img" class="hero-img" src="">
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="content-wrap" id="content-box">
+            <h1 id="art-title" class="main-title">Loading Article...</h1>
+            
+            <div class="meta-data">
+                <div class="author-line">
+                    <span>✍️</span> Written by Mundari Samaj
+                </div>
+                <div class="date-line" id="art-date">
+                    Published on: Loading...
+                </div>
+            </div>
+
+            <div id="art-body" class="article-body"></div>
+            
+            <div class="end-mark">•••</div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+
+    <script>
+        // --- HEADER SCROLL LOGIC ---
+        let lastScrollTop = 0;
+        const mainHeader = document.getElementById('main-header');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 70) {
+                mainHeader.classList.add('header-hidden'); // Hide when scrolling down
+            } else {
+                mainHeader.classList.remove('header-hidden'); // Show when scrolling up
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // --- 1. Load Article ---
+        function getQueryParam(param) {
+            return new URLSearchParams(window.location.search).get(param);
+        }
+        
+        const id = getQueryParam('id');
+        const article = db.articles.find(a => a.id == id);
+
+        if(article) {
+            // Title
+            document.getElementById('art-title').innerText = article.title;
+            
+            // Generate Date (If no date was saved, use today's date)
+            const publishDate = article.date || new Date(parseInt(article.id)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('art-date').innerText = "Published on: " + publishDate;
+            
+            // Content
+            document.getElementById('art-body').innerHTML = article.content;
+            
+            // Apply Custom Font
+            if(article.font) {
+                document.getElementById('art-body').style.fontFamily = article.font;
+            }
+
+            // Image Logic
+            const heroBox = document.getElementById('hero-box');
+            const imgEl = document.getElementById('art-img');
+            const contentBox = document.getElementById('content-box');
+
+            if(article.thumbnail && article.thumbnail.trim() !== "") {
+                imgEl.src = article.thumbnail;
+                heroBox.style.display = 'block';
+                contentBox.style.marginTop = '-40px'; 
+            } else {
+                heroBox.style.display = 'none'; 
+                contentBox.style.marginTop = '20px'; 
+            }
+
+        } else {
+            document.getElementById('content-box').innerHTML = "<h2 style='text-align:center;margin-top:50px;color:#e74c3c;'>Article not found.</h2>";
+        }
+    </script>
+</body>
+</html>
